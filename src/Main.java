@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
-		
+
 		List<Article> articles = new ArrayList<>();
-		
+
 		int num = 1;
 
 		System.out.println("== 프로그램 시작 ==");
@@ -32,15 +32,25 @@ public class Main {
 			}
 
 			else if (cmd.equals("article list")) {
-				System.out.println("게시글이 없습니다.");
+
+				if (articles.isEmpty()) {
+					System.out.println("존재하는 게시글이 없습니다.");
+					continue;
+				}
+
+				System.out.println("번호 | 제목 | 내용");
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+					System.out.println(article.num + " | " + article.title + " | " + article.content);
+				}
+			}
+			
+			else if (cmd.equals("exit")) {
+				break;
 			}
 
 			else if (cmd.equals("")) {
 				System.out.println("명령어를 입력해주세요.");
-			}
-
-			else if (cmd.equals("exit")) {
-				break;
 			}
 
 			else {
@@ -57,8 +67,8 @@ class Article {
 	int num;
 	String title;
 	String content;
-	
-	Article(int num, String title, String content){
+
+	Article(int num, String title, String content) {
 		this.num = num;
 		this.title = title;
 		this.content = content;
