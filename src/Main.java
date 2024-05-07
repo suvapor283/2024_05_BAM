@@ -43,8 +43,32 @@ public class Main {
 					Article article = articles.get(i);
 					System.out.println(article.num + " | " + article.title + " | " + article.content);
 				}
+
+			} else if (cmd.startsWith("article detail ")) {
+				String[] cmdBits = cmd.split(" ");
+
+				int id = Integer.parseInt(cmdBits[2]);
+
+				Article foundArticle = null;
+
+				for (Article article : articles) {
+					if (article.num == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.println(id + "번 게시물이 존재하지 않습니다.");
+				}
+
+				System.out.println("번호 : " + foundArticle.num);
+				System.out.println("날짜 : ~~~");
+				System.out.println("제목 : " + foundArticle.title);
+				System.out.println("내용 : " + foundArticle.content);
+
 			}
-			
+
 			else if (cmd.equals("exit")) {
 				break;
 			}
