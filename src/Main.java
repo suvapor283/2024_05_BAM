@@ -7,7 +7,7 @@ public class Main {
 
 		List<Article> articles = new ArrayList<>();
 
-		int num = 1;
+		int lastArticleid = 1;
 
 		System.out.println("== 프로그램 시작 ==");
 		Scanner sc = new Scanner(System.in);
@@ -24,11 +24,11 @@ public class Main {
 				System.out.printf("내용 : ");
 				String content = sc.nextLine();
 
-				Article article = new Article(num, title, content);
+				Article article = new Article(lastArticleid, title, content);
 				articles.add(article);
 
-				System.out.println(num + "번 글이 생성되었습니다.");
-				num++;
+				System.out.println(lastArticleid + "번 글이 생성되었습니다.");
+				lastArticleid++;
 			}
 
 			else if (cmd.equals("article list")) {
@@ -41,18 +41,27 @@ public class Main {
 				System.out.println("번호 | 제목 | 내용");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.println(article.num + " | " + article.title + " | " + article.content);
+					System.out.println(article.id + " | " + article.title + " | " + article.content);
 				}
 
 			} else if (cmd.startsWith("article detail ")) {
 				String[] cmdBits = cmd.split(" ");
 
-				int id = Integer.parseInt(cmdBits[2]);
-
+				int id = 0;
+				
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+				} catch (NumberFormatException e) {
+					System.out.println("명령어가 올바르지 않습니다.");
+					continue;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				Article foundArticle = null;
 
 				for (Article article : articles) {
-					if (article.num == id) {
+					if (article.id == id) {
 						foundArticle = article;
 						break;
 					}
@@ -60,9 +69,10 @@ public class Main {
 
 				if (foundArticle == null) {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
+					continue;
 				}
 
-				System.out.println("번호 : " + foundArticle.num);
+				System.out.println("번호 : " + foundArticle.id);
 				System.out.println("날짜 : ~~~");
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.content);
@@ -88,12 +98,12 @@ public class Main {
 }
 
 class Article {
-	int num;
+	int id;
 	String title;
 	String content;
 
-	Article(int num, String title, String content) {
-		this.num = num;
+	Article(int id, String title, String content) {
+		this.id = id;
 		this.title = title;
 		this.content = content;
 	}
