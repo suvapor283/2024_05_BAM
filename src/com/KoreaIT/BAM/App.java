@@ -46,25 +46,14 @@ public class App {
 
 			else if (cmd.startsWith("article modify ")) {
 
-				String[] cmdBits = cmd.split(" ");
+				int id = getCmdNum(cmd);
 
-				int id = 0;
-
-				try {
-					id = Integer.parseInt(cmdBits[2]);
-				} catch (NumberFormatException e) {
+				if (id == 0) {
 					System.out.println("명령어가 올바르지 않습니다.");
 					continue;
 				}
 
-				Article foundArticle = null;
-
-				for (Article article : articles) {
-					if (article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
@@ -84,25 +73,14 @@ public class App {
 
 			else if (cmd.startsWith("article delete ")) {
 
-				String[] cmdBits = cmd.split(" ");
+				int id = getCmdNum(cmd);
 
-				int id = 0;
-
-				try {
-					id = Integer.parseInt(cmdBits[2]);
-				} catch (NumberFormatException e) {
+				if (id == 0) {
 					System.out.println("명령어가 올바르지 않습니다.");
 					continue;
 				}
 
-				Article foundArticle = null;
-
-				for (Article article : articles) {
-					if (article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
@@ -116,25 +94,14 @@ public class App {
 
 			else if (cmd.startsWith("article detail ")) {
 
-				String[] cmdBits = cmd.split(" ");
+				int id = getCmdNum(cmd);
 
-				int id = 0;
-
-				try {
-					id = Integer.parseInt(cmdBits[2]);
-				} catch (NumberFormatException e) {
+				if (id == 0) {
 					System.out.println("명령어가 올바르지 않습니다.");
 					continue;
 				}
 
-				Article foundArticle = null;
-
-				for (Article article : articles) {
-					if (article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
@@ -182,6 +149,29 @@ public class App {
 		sc.close();
 
 		System.out.println("== 프로그램 끝 ==");
+	}
+
+	private Article getArticleById(int id) {
+
+		for (Article article : articles) {
+			if (article.getId() == id) {
+				return article;
+			}
+		}
+		return null;
+	}
+
+	private int getCmdNum(String cmd) {
+		String[] cmdBits = cmd.split(" ");
+
+		int id = 0;
+
+		try {
+			id = Integer.parseInt(cmdBits[2]);
+			return id;
+		} catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	private static void makeTestData() {

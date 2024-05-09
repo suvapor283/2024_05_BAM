@@ -6,7 +6,6 @@ public class Article {
 	private String title;
 	private String content;
 	private int viewCnt;
-	
 
 	public int getId() {
 		return id;
@@ -55,7 +54,7 @@ public class Article {
 		this.content = content;
 		this.viewCnt = viewCnt;
 	}
-	
+
 	public void increaseViewcnt() {
 		this.viewCnt++;
 	}
