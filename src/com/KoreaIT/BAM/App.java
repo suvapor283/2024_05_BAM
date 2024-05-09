@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.sql.rowset.serial.SerialArray;
+
 import com.KoreaIT.BAM.Util.Util;
 import com.KoreaIT.BAM.dto.Article;
 
@@ -17,6 +19,9 @@ public class App {
 		lastArticleId = 1;
 	}
 
+	/**
+	 * 
+	 */
 	public void run() {
 
 		System.out.println("== 프로그램 시작 ==");
@@ -117,17 +122,39 @@ public class App {
 				System.out.println("조회수 : " + foundArticle.getViewCnt());
 			}
 
-			else if (cmd.equals("article list")) {
+			else if (cmd.startsWith("article list")) {
 
 				if (articles.isEmpty()) {
 					System.out.println("존재하는 게시글이 없습니다.");
 					continue;
 				}
 
-				System.out.println("번호	|	제목	|		날짜		|	조회수");
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
-					System.out.printf("%d	|	%s	|	%s	|	%d\n", article.getId(), article.getTitle(),
+				String searchKeyword = cmd.substring("article list".length()).trim();
+
+				List<Article> printArticles = articles;
+
+				if (searchKeyword.length() > 0) {
+					System.out.println("검색어 : " + searchKeyword);
+
+					printArticles = new ArrayList<>();
+
+					for (Article article : articles) {
+						if (article.getTitle().contains(searchKeyword)) {
+							printArticles.add(article);
+						}
+					}
+
+					if (printArticles.size() == 0) {
+						System.out.println("검색결과가 없습니다.");
+						continue;
+					}
+				}
+
+				System.out.println("	번호	|	제목	|		날짜		|	조회수");
+
+				for (int i = printArticles.size() - 1; i >= 0; i--) {
+					Article article = printArticles.get(i);
+					System.out.printf("	%d	|	%s	|	%s	|	%d\n", article.getId(), article.getTitle(),
 							article.getRegDate(), article.getViewCnt());
 				}
 			}
