@@ -26,7 +26,8 @@ public class App {
 
 		System.out.println("== 프로그램 시작 ==");
 
-		makeTestData();
+		makeTestArticleData();
+		makeTestMemberData();
 
 		Scanner sc = new Scanner(System.in);
 
@@ -273,11 +274,19 @@ public class App {
 		}
 	}
 
-	private void makeTestData() {
+	private void makeTestArticleData() {
 		System.out.println("테스트용 게시글 데이터를 5개 생성했습니다.");
 
 		for (int i = 1; i <= 5; i++) {
 			articles.add(new Article(lastArticleNum++, Util.getDateStr(), "제목" + i, "내용" + i, i * 10));
+		}
+	}
+	
+	private void makeTestMemberData() {
+		System.out.println("테스트용 회원 데이터를 3개 생성했습니다.");
+
+		for (int i = 1; i <= 3; i++) {
+			members.add(new Member(lastMemberNum++, Util.getDateStr(), "user" + i, "user" + i, "유저" + i));
 		}
 	}
 }
