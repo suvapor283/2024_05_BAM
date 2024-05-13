@@ -7,20 +7,30 @@ import java.util.Scanner;
 import com.KoreaIT.BAM.Util.Util;
 import com.KoreaIT.BAM.dto.Member;
 
-public class MemberController {
+public class MemberController extends Controller {
 
-	private Scanner sc;
 	private List<Member> members;
-	private int lastMemberNum;
 
 	public MemberController(Scanner sc) {
 
 		this.sc = sc;
 		this.members = new ArrayList<>();
-		this.lastMemberNum = 1;
+		this.lastNum = 1;
 	}
 
-	public void doJoin() {
+	public void doAction(String cmd, String methodName) {
+
+		switch (methodName) {
+		case "join":
+			doJoin();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+			break;
+		}
+	}
+
+	private void doJoin() {
 		String loginId = null;
 		String loginPw = null;
 		String loginPwChk = null;
@@ -74,11 +84,11 @@ public class MemberController {
 			break;
 		}
 
-		Member member = new Member(lastMemberNum, Util.getDateStr(), name, loginId, loginPw);
+		Member member = new Member(lastNum, Util.getDateStr(), name, loginId, loginPw);
 		members.add(member);
 
 		System.out.println("[ " + loginId + " ] 회원님의 가입이 완료되었습니다.");
-		lastMemberNum++;
+		lastNum++;
 	}
 
 	private boolean loginIdDupChk(String loginId) {
@@ -90,11 +100,11 @@ public class MemberController {
 		return true;
 	}
 
-	public void makeTestMemberData() {
+	public void makeTestData() {
 		System.out.println("테스트용 회원 데이터를 3개 생성했습니다.");
 
 		for (int i = 1; i <= 3; i++) {
-			members.add(new Member(lastMemberNum++, Util.getDateStr(), "user" + i, "user" + i, "유저" + i));
+			members.add(new Member(lastNum++, Util.getDateStr(), "user" + i, "user" + i, "유저" + i));
 		}
 	}
 }
