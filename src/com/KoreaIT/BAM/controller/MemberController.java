@@ -15,8 +15,9 @@ public class MemberController {
 
 	public MemberController(Scanner sc) {
 
-		members = new ArrayList<>();
-		lastMemberNum = 1;
+		this.sc = sc;
+		this.members = new ArrayList<>();
+		this.lastMemberNum = 1;
 	}
 
 	public void doJoin() {
@@ -37,7 +38,6 @@ public class MemberController {
 		}
 
 		while (true) {
-			boolean a = false;
 
 			System.out.printf("아이디 : ");
 			loginId = sc.nextLine().trim();
