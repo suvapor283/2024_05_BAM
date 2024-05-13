@@ -10,12 +10,14 @@ import com.KoreaIT.BAM.dto.Member;
 public class MemberController extends Controller {
 
 	private List<Member> members;
+	private Member loginedMember;
 
 	public MemberController(Scanner sc) {
 
 		this.sc = sc;
 		this.members = new ArrayList<>();
 		this.lastNum = 1;
+		this.loginedMember = null;
 	}
 
 	public void doAction(String cmd, String methodName) {
@@ -23,6 +25,9 @@ public class MemberController extends Controller {
 		switch (methodName) {
 		case "join":
 			doJoin();
+			break;
+		case "login":
+			doLogin();
 			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
@@ -91,11 +96,43 @@ public class MemberController extends Controller {
 		lastNum++;
 	}
 
-	private boolean loginIdDupChk(String loginId) {
+	private void doLogin() {
+
+		System.out.printf("ID : ");
+		String loginId = sc.nextLine().trim();
+		System.out.printf("PW : ");
+		String loginPw = sc.nextLine().trim();
+
+		Member foundMember = getMemberByLoginId(loginId);
+
+		if (foundMember == null) {
+			System.out.println("존재하지 않는 아이디 입니다.");
+			return;
+		}
+
+		if (foundMember.getLoginPw().equals(loginPw) == false) {
+			System.out.println("비밀번호를 확인해주세요.");
+			return;
+		}
+		this.loginedMember = foundMember;
+
+		System.out.println("로그인 성공");
+	}
+
+	private Member getMemberByLoginId(String loginId) {
 		for (Member member : members) {
 			if (member.getLoginId().equals(loginId)) {
-				return false;
+				return member;
 			}
+		}
+		return null;
+	}
+
+	private boolean loginIdDupChk(String loginId) {
+		Member member = getMemberByLoginId(loginId);
+
+		if (member != null) {
+			return false;
 		}
 		return true;
 	}
@@ -104,7 +141,7 @@ public class MemberController extends Controller {
 		System.out.println("테스트용 회원 데이터를 3개 생성했습니다.");
 
 		for (int i = 1; i <= 3; i++) {
-			members.add(new Member(lastNum++, Util.getDateStr(), "user" + i, "user" + i, "유저" + i));
+			members.add(new Member(lastNum++, Util.getDateStr(), "유저" + i, "user" + i, "user" + i));
 		}
 	}
 }
