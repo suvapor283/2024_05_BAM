@@ -1,10 +1,10 @@
 package com.KoreaIT.BAM.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.BAM.Util.Util;
+import com.KoreaIT.BAM.container.Container;
 import com.KoreaIT.BAM.dto.Member;
 
 public class MemberController extends Controller {
@@ -14,7 +14,7 @@ public class MemberController extends Controller {
 	public MemberController(Scanner sc) {
 
 		this.sc = sc;
-		this.members = new ArrayList<>();
+		this.members = Container.members;
 		this.lastNum = 1;
 		loginedMember = null;
 	}

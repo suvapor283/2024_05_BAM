@@ -5,17 +5,21 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.BAM.Util.Util;
+import com.KoreaIT.BAM.container.Container;
 import com.KoreaIT.BAM.dto.Article;
+import com.KoreaIT.BAM.dto.Member;
 
 public class ArticleController extends Controller {
 
 	private List<Article> articles;
+	private List<Member> members;
 
 	public ArticleController(Scanner sc) {
 
 		this.sc = sc;
-		this.articles = new ArrayList<>();
 		this.lastNum = 1;
+		this.articles = Container.articles;
+		this.members = Container.members;
 	}
 
 	public void doAction(String cmd, String methodName) {
@@ -136,11 +140,15 @@ public class ArticleController extends Controller {
 
 		foundArticle.increaseViewcnt();
 
+		String writerLoginId = getLoginIdByMemberId(foundArticle.getMemberId());
+
 		System.out.println("번호 : " + foundArticle.getNum());
-		System.out.println("날짜 : " + foundArticle.getRegDate());
 		System.out.println("제목 : " + foundArticle.getTitle());
 		System.out.println("내용 : " + foundArticle.getContent());
+		System.out.println("날짜 : " + foundArticle.getRegDate());
+		System.out.println("작성자 : " + writerLoginId);
 		System.out.println("조회수 : " + foundArticle.getViewCnt());
+
 	}
 
 	private void showList() {
@@ -172,13 +180,25 @@ public class ArticleController extends Controller {
 			}
 		}
 
-		System.out.println("	번호	|	제목	|		날짜		|	조회수");
+		System.out.println("      번호	|     제목	|		날짜		|     작성자	|     조회수");
 
 		for (int i = printArticles.size() - 1; i >= 0; i--) {
 			Article article = printArticles.get(i);
-			System.out.printf("	%d	|	%s	|	%s	|	%d\n", article.getNum(), article.getTitle(),
-					article.getRegDate(), article.getViewCnt());
+
+			String writerLoginId = getLoginIdByMemberId(article.getMemberId());
+
+			System.out.printf("	%d	|     %s	|	%s	|	%s	|	%d\n", article.getNum(), article.getTitle(),
+					article.getRegDate(), writerLoginId, article.getViewCnt());
 		}
+	}
+
+	private String getLoginIdByMemberId(int memberId) {
+		for (Member member : members) {
+			if (memberId == member.getNum()) {
+				return member.getLoginId();
+			}
+		}
+		return null;
 	}
 
 	private int getCmdNum(String cmd) {
@@ -210,7 +230,8 @@ public class ArticleController extends Controller {
 		System.out.println("테스트용 게시글 데이터를 5개 생성했습니다.");
 
 		for (int i = 1; i <= 5; i++) {
-			articles.add(new Article(lastNum++, Util.getDateStr(), 2, "제목" + i, "내용" + i, i * 10));
+			articles.add(new Article(lastNum++, Util.getDateStr(), (int) (Math.random() * 3) + 1, "제목" + i, "내용" + i,
+					i * 10));
 		}
 	}
 }
