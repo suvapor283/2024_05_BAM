@@ -86,6 +86,11 @@ public class ArticleController extends Controller {
 			return;
 		}
 
+		if (foundArticle.getMemberId() != loginedMember.getNum()) {
+			System.out.println("해당 게시물에 대한 권한이 없습니다");
+			return;
+		}
+
 		System.out.printf("수정할 제목 : ");
 		String title = sc.nextLine().trim();
 		System.out.printf("수정할 내용 : ");
@@ -115,6 +120,11 @@ public class ArticleController extends Controller {
 
 		if (foundArticle == null) {
 			System.out.println(num + "번 게시물이 존재하지 않습니다.");
+			return;
+		}
+
+		if (foundArticle.getMemberId() != loginedMember.getNum()) {
+			System.out.println("해당 게시물에 대한 권한이 없습니다");
 			return;
 		}
 
