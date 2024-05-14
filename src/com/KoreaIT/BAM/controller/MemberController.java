@@ -10,14 +10,13 @@ import com.KoreaIT.BAM.dto.Member;
 public class MemberController extends Controller {
 
 	private List<Member> members;
-	private Member loginedMember;
 
 	public MemberController(Scanner sc) {
 
 		this.sc = sc;
 		this.members = new ArrayList<>();
 		this.lastNum = 1;
-		this.loginedMember = null;
+		loginedMember = null;
 	}
 
 	public void doAction(String cmd, String methodName) {
@@ -128,7 +127,7 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		this.loginedMember = foundMember;
+		loginedMember = foundMember;
 
 		System.out.println("로그인 성공 !");
 	}
@@ -140,12 +139,8 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		this.loginedMember = null;
+		loginedMember = null;
 		System.out.println("로그아웃 !");
-	}
-
-	private boolean isLogined() {
-		return loginedMember != null;
 	}
 
 	private Member getMemberByLoginId(String loginId) {

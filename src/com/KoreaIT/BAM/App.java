@@ -25,6 +25,15 @@ public class App {
 			System.out.printf("명령어 ) ");
 			String cmd = sc.nextLine().trim();
 
+			if (cmd.equals("exit")) {
+				break;
+			}
+
+			if (cmd.length() == 0) {
+				System.out.println("명령어를 입력해주세요.");
+				continue;
+			}
+
 			String[] cmdBits = cmd.split(" ");
 
 			if (cmdBits.length < 2) {
@@ -45,14 +54,7 @@ public class App {
 				controller = articleController;
 			}
 
-			else if (cmd.equals("exit")) {
-				break;
-			}
-
-			else if (cmd.length() == 0) {
-				System.out.println("명령어를 입력해주세요.");
-				continue;
-			} else {
+			else {
 				System.out.println("존재하지 않는 명령어입니다.");
 				continue;
 			}
