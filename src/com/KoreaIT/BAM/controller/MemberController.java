@@ -3,20 +3,21 @@ package com.KoreaIT.BAM.controller;
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.BAM.Util.Util;
 import com.KoreaIT.BAM.container.Container;
 import com.KoreaIT.BAM.dto.Member;
+import com.KoreaIT.BAM.service.MemberService;
 
 public class MemberController extends Controller {
 
 	private List<Member> members;
+	private MemberService memberService;
 
 	public MemberController(Scanner sc) {
 
 		this.sc = sc;
 		this.members = Container.members;
-		this.lastNum = 1;
 		loginedMember = null;
+		this.memberService = new MemberService();
 	}
 
 	public void doAction(String cmd, String methodName) {
@@ -63,7 +64,7 @@ public class MemberController extends Controller {
 				System.out.println("아이디는 필수 입력 정보입니다.");
 				continue;
 			}
-			if (loginIdDupChk(loginId) == false) {
+			if (memberService.loginIdDupChk(loginId) == false) {
 				System.out.println("[ " + loginId + " ] 은(는) 이미 사용중인 아이디입니다.");
 				continue;
 			}
@@ -91,11 +92,9 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		Member member = new Member(lastNum, Util.getDateStr(), name, loginId, loginPw);
-		members.add(member);
-
+		memberService.joinMember(name, loginId, loginPw);
+		
 		System.out.println("[ " + loginId + " ] 회원님의 가입이 완료되었습니다.");
-		lastNum++;
 	}
 
 	private void doLogin() {
@@ -105,7 +104,7 @@ public class MemberController extends Controller {
 		System.out.printf("PW : ");
 		String loginPw = sc.nextLine().trim();
 
-		Member foundMember = getMemberByLoginId(loginId);
+		Member foundMember = memberService.getMemberByLoginId(loginId);
 
 		if (foundMember == null) {
 			System.out.println("존재하지 않는 아이디 입니다.");
@@ -128,29 +127,11 @@ public class MemberController extends Controller {
 		System.out.println("로그아웃 !");
 	}
 
-	private Member getMemberByLoginId(String loginId) {
-		for (Member member : members) {
-			if (member.getLoginId().equals(loginId)) {
-				return member;
-			}
-		}
-		return null;
-	}
-
-	private boolean loginIdDupChk(String loginId) {
-		Member member = getMemberByLoginId(loginId);
-
-		if (member != null) {
-			return false;
-		}
-		return true;
-	}
-
 	public void makeTestData() {
 		System.out.println("테스트용 회원 데이터를 3개 생성했습니다.");
 
 		for (int i = 1; i <= 3; i++) {
-			members.add(new Member(lastNum++, Util.getDateStr(), "유저" + i, "user" + i, "user" + i));
+			memberService.joinMember("유저" + i, "user" + i, "user" + i);
 		}
 	}
 }
