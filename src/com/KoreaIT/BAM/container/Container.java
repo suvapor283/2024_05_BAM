@@ -1,17 +1,21 @@
 package com.KoreaIT.BAM.container;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.KoreaIT.BAM.dto.Article;
-import com.KoreaIT.BAM.dto.Member;
+import com.KoreaIT.BAM.dao.ArticleDao;
+import com.KoreaIT.BAM.dao.MemberDao;
+import com.KoreaIT.BAM.service.ArticleService;
+import com.KoreaIT.BAM.service.MemberService;
 
 public class Container {
-	public static List<Member> members;
-	public static List<Article> articles;
-
+	
+	public static MemberDao memberDao;
+	public static ArticleDao articleDao;
+	public static MemberService memberService;
+	public static ArticleService articleService;
+	
 	static {
-		members = new ArrayList<>();
-		articles = new ArrayList<>();
+		memberDao = new MemberDao();
+		articleDao = new ArticleDao();
+		memberService = new MemberService();
+		articleService = new ArticleService();
 	}
 }

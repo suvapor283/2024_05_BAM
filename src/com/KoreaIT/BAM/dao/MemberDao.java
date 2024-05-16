@@ -1,9 +1,9 @@
 package com.KoreaIT.BAM.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.KoreaIT.BAM.Util.Util;
-import com.KoreaIT.BAM.container.Container;
 import com.KoreaIT.BAM.dto.Member;
 
 public class MemberDao {
@@ -11,8 +11,8 @@ public class MemberDao {
 	private int lastNum;
 
 	public MemberDao() {
+		this.members = new ArrayList<>();
 		this.lastNum = 1;
-		this.members = Container.members;
 	}
 
 	public void joinMember(String name, String loginId, String loginPw) {

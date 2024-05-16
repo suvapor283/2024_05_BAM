@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.KoreaIT.BAM.Util.Util;
-import com.KoreaIT.BAM.container.Container;
 import com.KoreaIT.BAM.dto.Article;
 
 public class ArticleDao {
@@ -12,7 +11,7 @@ public class ArticleDao {
 	private int lastNum;
 
 	public ArticleDao() {
-		this.articles = Container.articles;
+		this.articles = new ArrayList<>();
 		this.lastNum = 1;
 	}
 
