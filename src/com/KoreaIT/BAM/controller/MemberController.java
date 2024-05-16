@@ -1,23 +1,17 @@
 package com.KoreaIT.BAM.controller;
 
-import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.BAM.container.Container;
 import com.KoreaIT.BAM.dto.Member;
 import com.KoreaIT.BAM.service.MemberService;
 
 public class MemberController extends Controller {
-
-	private List<Member> members;
 	private MemberService memberService;
 
 	public MemberController(Scanner sc) {
-
 		this.sc = sc;
-		this.members = Container.members;
-		loginedMember = null;
 		this.memberService = new MemberService();
+		loginedMember = null;
 	}
 
 	public void doAction(String cmd, String methodName) {
@@ -52,6 +46,7 @@ public class MemberController extends Controller {
 				System.out.println("이름은 필수 입력 정보입니다.");
 				continue;
 			}
+
 			break;
 		}
 
@@ -64,6 +59,7 @@ public class MemberController extends Controller {
 				System.out.println("아이디는 필수 입력 정보입니다.");
 				continue;
 			}
+
 			if (memberService.loginIdDupChk(loginId) == false) {
 				System.out.println("[ " + loginId + " ] 은(는) 이미 사용중인 아이디입니다.");
 				continue;
@@ -89,11 +85,12 @@ public class MemberController extends Controller {
 				System.out.println("입력하신 비밀번호가 일치하지 않습니다.");
 				continue;
 			}
+
 			break;
 		}
 
 		memberService.joinMember(name, loginId, loginPw);
-		
+
 		System.out.println("[ " + loginId + " ] 회원님의 가입이 완료되었습니다.");
 	}
 
@@ -128,6 +125,7 @@ public class MemberController extends Controller {
 	}
 
 	public void makeTestData() {
+
 		System.out.println("테스트용 회원 데이터를 3개 생성했습니다.");
 
 		for (int i = 1; i <= 3; i++) {

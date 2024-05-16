@@ -5,7 +5,6 @@ import java.util.Scanner;
 import com.KoreaIT.BAM.dto.Member;
 
 public abstract class Controller {
-
 	public Scanner sc;
 	public int lastNum;
 	public String cmd;
@@ -16,6 +15,7 @@ public abstract class Controller {
 	public abstract void makeTestData();
 
 	public static boolean isLogined() {
+
 		return loginedMember != null;
 	}
 }
